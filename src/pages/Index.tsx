@@ -25,7 +25,15 @@ const Index = () => {
       </div>
       
       <AnimatedTransition>
-        <div className="text-center mb-8">
+        <div className="mb-8 flex flex-col items-center">
+          {/* Company Logo */}
+          <div className="w-32 h-32 mb-6 flex items-center justify-center">
+            <img 
+              src="/company-logo.png" 
+              alt="Logo da Empresa" 
+              className="max-w-full max-h-full object-contain"
+            />
+          </div>
           <h1 className="text-4xl font-bold tracking-tight">Sistema de Dashboards</h1>
           <p className="mt-2 text-muted-foreground max-w-md mx-auto">
             Acesse os painéis de acordo com seu perfil de usuário
