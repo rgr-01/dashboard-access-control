@@ -82,7 +82,7 @@ const Dashboard = () => {
         </AnimatedTransition>
       </div>
       
-      {/* Main content */}
+      {/* Main content - agora vazio */}
       <div className={cn(
         "pt-24 pb-12 px-4 sm:px-6 lg:px-8 w-full",
         "md:ml-64 lg:ml-72" // Add margin to account for sidebar
@@ -91,40 +91,10 @@ const Dashboard = () => {
           <div className="text-center mb-10">
             <h1 className="text-3xl font-bold tracking-tight">Dashboards disponíveis</h1>
             <p className="mt-2 text-muted-foreground">
-              Selecione um dashboard para visualizar
+              Selecione um dashboard no menu lateral para visualizar
             </p>
           </div>
         </AnimatedTransition>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {accessibleDashboards.map(([id, dashboard], index) => (
-            <AnimatedTransition key={id} delay={100 * index} animationType="slide-up">
-              <GlassCard 
-                className="h-full group transition-all duration-300 hover:shadow-md"
-                blurStrength="light"
-              >
-                <CardHeader className="pb-4">
-                  <CardTitle>{dashboard.title}</CardTitle>
-                  <CardDescription>{dashboard.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="pt-4">
-                  <p className="text-sm text-muted-foreground">
-                    Acesso permitido para: {dashboard.roles.join(', ')}
-                  </p>
-                </CardContent>
-                <CardFooter>
-                  <Button 
-                    className="w-full group-hover:bg-primary/90"
-                    onClick={() => navigate(`/dashboard/${id}`)}
-                  >
-                    <span>Acessar</span>
-                    <ArrowRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </CardFooter>
-              </GlassCard>
-            </AnimatedTransition>
-          ))}
-        </div>
         
         {accessibleDashboards.length === 0 && (
           <div className="text-center py-12">
