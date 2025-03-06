@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Header } from '@/components/layout/Header';
 import { DashboardEmbed } from '@/components/DashboardEmbed';
 import { getCurrentUser, hasAccessToDashboard } from '@/utils/auth';
@@ -16,26 +16,22 @@ const Dashboard = () => {
   const dashboardId = params.dashboardId;
   
   useEffect(() => {
-    // Check if user is logged in
     if (!user) {
       navigate('/');
       return;
     }
     
-    // If a specific dashboard is selected, check access
     if (dashboardId && !hasAccessToDashboard(user, dashboardId)) {
       navigate('/not-authorized');
     }
   }, [user, dashboardId, navigate]);
   
-  // Get dashboards the user has access to
   const accessibleDashboards = Object.entries(DASHBOARDS).filter(
-    ([id, dashboard]) => dashboard.roles.includes(user?.role || '')
+    ([id, dashboard]) => dashboard.roles.includes(user?.role || 'pecas' as any)
   );
   
   if (!user) return null;
   
-  // If a specific dashboard is selected, show it
   if (dashboardId) {
     return (
       <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -50,7 +46,6 @@ const Dashboard = () => {
     );
   }
   
-  // Otherwise show the dashboard selection page
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <Header />
