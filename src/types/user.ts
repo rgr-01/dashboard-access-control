@@ -6,6 +6,7 @@ export interface User {
   username: string;
   role: UserRole;
   name: string;
+  password?: string; // Adicionado campo de senha opcional para não expor no localStorage
 }
 
 export interface AuthState {
@@ -44,30 +45,34 @@ export const DASHBOARDS: DashboardAccess = {
   }
 };
 
-// Mock database of users for demo
+// Mock database de usuários para demo com senhas
 export const USERS: User[] = [
   {
     id: '1',
     username: 'pecas',
     role: 'pecas',
-    name: 'Usuário Peças'
+    name: 'Usuário Peças',
+    password: 'senha123'
   },
   {
     id: '2',
     username: 'comercial',
     role: 'comercial',
-    name: 'Usuário Comercial'
+    name: 'Usuário Comercial',
+    password: 'senha123'
   },
   {
     id: '3',
     username: 'financeiro',
     role: 'financeiro',
-    name: 'Usuário Financeiro'
+    name: 'Usuário Financeiro',
+    password: 'senha123'
   },
   {
     id: '4',
     username: 'gerente',
     role: 'gerente',
-    name: 'Usuário Gerente'
+    name: 'Usuário Gerente',
+    password: 'senha123'
   }
 ];

@@ -45,7 +45,7 @@ const Index = () => {
       
       <AnimatedTransition delay={700} className="mt-8 text-sm text-muted-foreground">
         <p>Usuários para teste: pecas, comercial, financeiro, gerente</p>
-        <p>Qualquer senha funciona para teste</p>
+        <p>Senha padrão para todos: senha123</p>
       </AnimatedTransition>
     </div>
   );

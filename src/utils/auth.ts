@@ -9,11 +9,15 @@ export const login = (username: string, password: string): Promise<User> => {
     setTimeout(() => {
       const user = USERS.find(u => u.username === username);
       
-      // For demo purposes, any password works but username must match
-      if (user && password.length > 0) {
-        // Save to localStorage
-        localStorage.setItem('user', JSON.stringify(user));
-        resolve(user);
+      // Verificar se o usuário existe e se a senha está correta
+      if (user && user.password === password) {
+        // Criar uma versão do usuário sem a senha para armazenar no localStorage
+        const safeUser = { ...user };
+        delete safeUser.password;
+        
+        // Salvar no localStorage
+        localStorage.setItem('user', JSON.stringify(safeUser));
+        resolve(safeUser);
         toast.success('Login realizado com sucesso');
       } else {
         reject(new Error('Usuário ou senha incorretos'));
