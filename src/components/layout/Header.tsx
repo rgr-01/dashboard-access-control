@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { LogOut, Menu, User, ChevronLeft } from 'lucide-react';
+import { LogOut, Menu, User, ChevronLeft, Settings } from 'lucide-react';
 import { getCurrentUser, logout } from '@/utils/auth';
 import { cn } from '@/lib/utils';
 
@@ -31,6 +31,7 @@ export function Header() {
   const isLoginPage = location.pathname === '/';
   const isNotFoundPage = location.pathname === '/not-found';
   const isDashboardPage = location.pathname.startsWith('/dashboard');
+  const isAdminPage = location.pathname.startsWith('/admin');
 
   if (isLoginPage || isNotFoundPage) return null;
 
@@ -41,7 +42,7 @@ export function Header() {
     )}>
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          {isDashboardPage && (
+          {(isDashboardPage || isAdminPage) && (
             <Button
               variant="ghost"
               size="icon"
@@ -63,6 +64,7 @@ export function Header() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
                   <Avatar className="h-8 w-8">
+                    <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`} alt={user.name} />
                     <AvatarFallback className="bg-primary text-primary-foreground">
                       {user.name?.charAt(0).toUpperCase() || 'U'}
                     </AvatarFallback>
@@ -78,6 +80,17 @@ export function Header() {
                   Perfil: {user.role}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
+                
+                {user.role === 'admin' && (
+                  <>
+                    <DropdownMenuItem onClick={() => navigate('/admin')}>
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Painel Administrativo</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                  </>
+                )}
+                
                 <DropdownMenuItem onClick={handleLogout} className="text-destructive">
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Sair</span>

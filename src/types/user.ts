@@ -1,5 +1,5 @@
 
-export type UserRole = 'pecas' | 'comercial' | 'financeiro' | 'gerente';
+export type UserRole = 'pecas' | 'comercial' | 'financeiro' | 'gerente' | 'admin';
 
 export interface User {
   id: string;
@@ -29,19 +29,25 @@ export const DASHBOARDS: DashboardAccess = {
     title: 'Dashboard de Peças',
     embedUrl: 'https://app.powerbi.com/reportEmbed?reportId=your-pecas-report-id',
     description: 'Visualização de estoque e movimentação de peças',
-    roles: ['pecas', 'gerente']
+    roles: ['pecas', 'gerente', 'admin']
   },
   comercial: {
     title: 'Dashboard Comercial',
     embedUrl: 'https://app.powerbi.com/reportEmbed?reportId=your-comercial-report-id',
     description: 'Análise de vendas e performance comercial',
-    roles: ['comercial', 'gerente']
+    roles: ['comercial', 'gerente', 'admin']
   },
   financeiro: {
     title: 'Dashboard Financeiro',
     embedUrl: 'https://app.powerbi.com/reportEmbed?reportId=your-financeiro-report-id',
     description: 'Resultados financeiros e análise de custos',
-    roles: ['financeiro', 'gerente']
+    roles: ['financeiro', 'gerente', 'admin']
+  },
+  admin: {
+    title: 'Painel Administrativo',
+    embedUrl: '',
+    description: 'Gerenciamento de usuários e permissões',
+    roles: ['admin']
   }
 };
 
@@ -74,5 +80,12 @@ export const USERS: User[] = [
     role: 'gerente',
     name: 'Usuário Gerente',
     password: 'senha123'
+  },
+  {
+    id: '5',
+    username: 'admin',
+    role: 'admin',
+    name: 'Administrador',
+    password: 'admin123'
   }
 ];

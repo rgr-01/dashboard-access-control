@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { getCurrentUser } from "./utils/auth";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
+import AdminPage from "./pages/AdminPage";
 import NotAuthorized from "./pages/NotAuthorized";
 import NotFound from "./pages/NotFound";
 
@@ -18,6 +19,21 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   
   if (!user) {
     return <Navigate to="/" replace />;
+  }
+  
+  return children;
+};
+
+// Admin route component
+const AdminRoute = ({ children }: { children: JSX.Element }) => {
+  const user = getCurrentUser();
+  
+  if (!user) {
+    return <Navigate to="/" replace />;
+  }
+  
+  if (user.role !== 'admin') {
+    return <Navigate to="/not-authorized" replace />;
   }
   
   return children;
@@ -45,6 +61,14 @@ const App = () => (
               <ProtectedRoute>
                 <Dashboard />
               </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin" 
+            element={
+              <AdminRoute>
+                <AdminPage />
+              </AdminRoute>
             } 
           />
           <Route path="/not-authorized" element={<NotAuthorized />} />

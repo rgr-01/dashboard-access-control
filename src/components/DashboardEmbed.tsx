@@ -1,7 +1,5 @@
 
-import { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { AnimatedTransition } from './ui-components/AnimatedTransition';
+import { AdminPanel } from '@/components/AdminPanel';
 import { DASHBOARDS } from '@/types/user';
 
 interface DashboardEmbedProps {
@@ -9,54 +7,43 @@ interface DashboardEmbedProps {
 }
 
 export function DashboardEmbed({ dashboardId }: DashboardEmbedProps) {
-  const [isLoading, setIsLoading] = useState(true);
+  // Se for o dashboard admin, exibir o painel administrativo
+  if (dashboardId === 'admin') {
+    return <AdminPanel />;
+  }
   
   const dashboard = DASHBOARDS[dashboardId];
   
   if (!dashboard) {
     return (
-      <Card className="w-full h-[500px] flex items-center justify-center">
-        <CardContent>
-          <p className="text-center text-muted-foreground">Dashboard não encontrado</p>
-        </CardContent>
-      </Card>
+      <div className="flex items-center justify-center h-64 border rounded-lg bg-muted/20">
+        <p className="text-muted-foreground">Dashboard não encontrado</p>
+      </div>
     );
   }
   
-  useEffect(() => {
-    // Simulating load time
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-    
-    return () => clearTimeout(timer);
-  }, [dashboardId]);
-  
   return (
-    <AnimatedTransition animationType="fade">
-      <Card className="w-full border shadow-md overflow-hidden">
-        <CardHeader className="bg-primary/5 pb-4">
-          <CardTitle>{dashboard.title}</CardTitle>
-          <CardDescription>{dashboard.description}</CardDescription>
-        </CardHeader>
-        <CardContent className="p-0 h-[600px] relative">
-          {isLoading ? (
-            <div className="absolute inset-0 flex items-center justify-center bg-background/80">
-              <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
-              <span className="ml-2 text-sm text-muted-foreground">Carregando dashboard...</span>
-            </div>
-          ) : (
-            <iframe
-              title={dashboard.title}
-              width="100%"
-              height="100%"
-              src={dashboard.embedUrl}
-              frameBorder="0"
-              allowFullScreen
-            ></iframe>
-          )}
-        </CardContent>
-      </Card>
-    </AnimatedTransition>
+    <div className="space-y-4">
+      <div className="pb-4 border-b">
+        <h2 className="text-2xl font-bold">{dashboard.title}</h2>
+        <p className="text-muted-foreground">{dashboard.description}</p>
+      </div>
+      
+      <div className="aspect-[16/9] w-full border rounded-lg bg-background flex items-center justify-center overflow-hidden">
+        {dashboard.embedUrl ? (
+          <iframe 
+            src={dashboard.embedUrl}
+            className="w-full h-full"
+            title={dashboard.title}
+            frameBorder="0" 
+            allowFullScreen
+          />
+        ) : (
+          <div className="text-center p-8">
+            <p className="text-muted-foreground">Endereço de embed não configurado para este dashboard.</p>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
