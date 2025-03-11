@@ -1,8 +1,8 @@
-
 #root {
-  width: 100%;
-  min-height: 100vh;
-  overflow-x: hidden;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
 
 .logo {
@@ -39,23 +39,4 @@
 
 .read-the-docs {
   color: #888;
-}
-
-/* Ensure sidebar content is clickable */
-.dashboard-button {
-  position: relative;
-  z-index: 10;
-  pointer-events: auto;
-}
-
-/* Fix z-index stacking */
-.content-layer {
-  position: relative;
-  z-index: 5;
-}
-
-/* Ensure main content stays above page background */
-.main-content {
-  position: relative;
-  z-index: 10;
 }

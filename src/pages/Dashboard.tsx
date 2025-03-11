@@ -8,7 +8,7 @@ import { DashboardEmbed } from '@/components/DashboardEmbed';
 import { getCurrentUser, hasAccessToDashboard } from '@/utils/auth';
 import { DASHBOARDS } from '@/types/user';
 import { AnimatedTransition } from '@/components/ui-components/AnimatedTransition';
-import { ArrowRight, LayoutDashboard, Menu, X } from 'lucide-react';
+import { ArrowRight, LayoutDashboard } from 'lucide-react';
 import { GlassCard } from '@/components/ui-components/GlassCard';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -18,7 +18,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [selectedDashboard, setSelectedDashboard] = useState<string | null>(params.dashboardId || null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   useEffect(() => {
     if (!user) {
@@ -33,26 +32,6 @@ const Dashboard = () => {
     }
   }, [user, params.dashboardId, navigate]);
   
-  useEffect(() => {
-    // Close sidebar when changing routes on mobile
-    setSidebarOpen(false);
-  }, [selectedDashboard]);
-
-  useEffect(() => {
-    // Close sidebar when clicking outside on mobile
-    const handleClickOutside = (event: MouseEvent) => {
-      const sidebar = document.getElementById('dashboard-sidebar');
-      if (sidebarOpen && sidebar && !sidebar.contains(event.target as Node)) {
-        setSidebarOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [sidebarOpen]);
-  
   const accessibleDashboards = Object.entries(DASHBOARDS).filter(
     ([id, dashboard]) => dashboard.roles.includes(user?.role || 'pecas' as any)
   );
@@ -65,66 +44,30 @@ const Dashboard = () => {
   if (!user) return null;
   
   return (
-    <div className="min-h-screen flex flex-col relative overflow-x-hidden">
+    <div className="min-h-screen flex flex-col md:flex-row">
       <Header />
       
-      {/* Mobile sidebar toggle */}
-      <div className="fixed top-[5.5rem] left-4 z-50 md:hidden">
-        <Button 
-          variant="outline" 
-          size="icon" 
-          className="rounded-full bg-white shadow-md"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          aria-label={sidebarOpen ? "Fechar menu" : "Abrir menu"}
-        >
-          {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </Button>
-      </div>
-      
-      {/* Sidebar overlay for mobile */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 md:hidden" 
-          onClick={() => setSidebarOpen(false)}
-          aria-hidden="true"
-        />
-      )}
-      
       {/* Sidebar */}
-      <div 
-        id="dashboard-sidebar"
-        className={cn(
-          "w-[280px] md:w-64 lg:w-72 min-h-screen bg-[#FF9443] pt-20 px-4 z-50 border-r text-white",
-          "fixed left-0 top-0 bottom-0 transition-transform duration-300",
-          "md:translate-x-0",
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        )}
-      >
+      <div className="w-full md:w-64 lg:w-72 md:min-h-screen bg-primary/5 pt-20 px-4 md:fixed left-0 top-0 bottom-0 border-r">
         <AnimatedTransition>
-          <div className="sticky top-24 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] pb-12 scrollbar-none">
+          <div className="sticky top-24 space-y-6">
             {/* User Profile Picture */}
-            <div className="flex flex-col items-center my-6 pb-6 border-b border-white/10">
+            <div className="flex flex-col items-center my-6 pb-6 border-b border-primary/10">
               <Avatar className="h-24 w-24 mb-4">
-                <AvatarImage 
-                  src={user.role === 'gerente' 
-                    ? `https://api.dicebear.com/7.x/avataaars/svg?seed=manager-special`
-                    : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`
-                  } 
-                  alt={user.name} 
-                />
+                <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`} alt={user.name} />
                 <AvatarFallback className="text-2xl bg-primary text-primary-foreground">
                   {user.name?.charAt(0).toUpperCase() || 'U'}
                 </AvatarFallback>
               </Avatar>
               <div className="text-center">
                 <h3 className="text-base font-medium">{user.name}</h3>
-                <p className="text-xs text-white/80 mt-1 capitalize">{user.role}</p>
+                <p className="text-xs text-muted-foreground mt-1 capitalize">{user.role}</p>
               </div>
             </div>
             
             <div className="mb-6">
               <h2 className="text-xl font-semibold tracking-tight">Dashboards</h2>
-              <p className="text-sm text-white/80">
+              <p className="text-sm text-muted-foreground">
                 Navegue pelos dashboards disponíveis para seu perfil
               </p>
             </div>
@@ -134,10 +77,7 @@ const Dashboard = () => {
                 <AnimatedTransition key={id} delay={50 * index}>
                   <Button 
                     variant={selectedDashboard === id ? "default" : "ghost"}
-                    className={cn(
-                      "w-full justify-start relative z-10 pointer-events-auto",
-                      selectedDashboard !== id && "text-white hover:text-white hover:bg-white/10"
-                    )}
+                    className="w-full justify-start"
                     onClick={() => handleDashboardSelect(id)}
                   >
                     <LayoutDashboard className="mr-2 h-4 w-4" />
@@ -152,18 +92,16 @@ const Dashboard = () => {
       
       {/* Main content */}
       <div className={cn(
-        "pt-24 pb-12 px-4 sm:px-6 lg:px-8 w-full min-h-screen",
+        "pt-24 pb-12 px-4 sm:px-6 lg:px-8 w-full",
         "md:ml-64 lg:ml-72" // Add margin to account for sidebar
       )}>
         {selectedDashboard ? (
           <AnimatedTransition>
-            <div className="w-full overflow-hidden relative z-10">
-              <DashboardEmbed dashboardId={selectedDashboard} />
-            </div>
+            <DashboardEmbed dashboardId={selectedDashboard} />
           </AnimatedTransition>
         ) : (
           <AnimatedTransition>
-            <div className="text-center mb-10 max-w-3xl mx-auto">
+            <div className="text-center mb-10">
               <h1 className="text-3xl font-bold tracking-tight">Dashboards disponíveis</h1>
               <p className="mt-2 text-muted-foreground">
                 Selecione um dashboard no menu lateral para visualizar
