@@ -47,27 +47,33 @@ const Dashboard = () => {
     <div className="min-h-screen flex flex-col md:flex-row">
       <Header />
       
-      {/* Sidebar - Updated with the new background color #FF9443 */}
-      <div className="w-full md:w-64 lg:w-72 md:min-h-screen bg-[#FF9443] pt-20 px-4 md:fixed left-0 top-0 bottom-0 border-r">
+      {/* Sidebar - Updated with white text color */}
+      <div className="w-full md:w-64 lg:w-72 md:min-h-screen bg-[#FF9443] pt-20 px-4 md:fixed left-0 top-0 bottom-0 border-r text-white">
         <AnimatedTransition>
           <div className="sticky top-24 space-y-6">
             {/* User Profile Picture */}
             <div className="flex flex-col items-center my-6 pb-6 border-b border-primary/10">
               <Avatar className="h-24 w-24 mb-4">
-                <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`} alt={user.name} />
+                <AvatarImage 
+                  src={user.role === 'gerente' 
+                    ? `https://api.dicebear.com/7.x/avataaars/svg?seed=manager-special`
+                    : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`
+                  } 
+                  alt={user.name} 
+                />
                 <AvatarFallback className="text-2xl bg-primary text-primary-foreground">
                   {user.name?.charAt(0).toUpperCase() || 'U'}
                 </AvatarFallback>
               </Avatar>
               <div className="text-center">
                 <h3 className="text-base font-medium">{user.name}</h3>
-                <p className="text-xs text-muted-foreground mt-1 capitalize">{user.role}</p>
+                <p className="text-xs text-white/80 mt-1 capitalize">{user.role}</p>
               </div>
             </div>
             
             <div className="mb-6">
               <h2 className="text-xl font-semibold tracking-tight">Dashboards</h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-white/80">
                 Navegue pelos dashboards disponíveis para seu perfil
               </p>
             </div>
@@ -77,7 +83,10 @@ const Dashboard = () => {
                 <AnimatedTransition key={id} delay={50 * index}>
                   <Button 
                     variant={selectedDashboard === id ? "default" : "ghost"}
-                    className="w-full justify-start"
+                    className={cn(
+                      "w-full justify-start",
+                      selectedDashboard !== id && "text-white hover:text-white hover:bg-white/10"
+                    )}
                     onClick={() => handleDashboardSelect(id)}
                   >
                     <LayoutDashboard className="mr-2 h-4 w-4" />
