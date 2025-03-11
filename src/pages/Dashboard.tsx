@@ -47,8 +47,8 @@ const Dashboard = () => {
     <div className="min-h-screen flex flex-col md:flex-row">
       <Header />
       
-      {/* Sidebar */}
-      <div className="w-full md:w-64 lg:w-72 md:min-h-screen bg-primary/5 pt-20 px-4 md:fixed left-0 top-0 bottom-0 border-r">
+      {/* Sidebar - Updated with the new background color #FF9443 */}
+      <div className="w-full md:w-64 lg:w-72 md:min-h-screen bg-[#FF9443] pt-20 px-4 md:fixed left-0 top-0 bottom-0 border-r">
         <AnimatedTransition>
           <div className="sticky top-24 space-y-6">
             {/* User Profile Picture */}
