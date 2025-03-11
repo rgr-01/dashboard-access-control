@@ -86,6 +86,7 @@ const Dashboard = () => {
         <div 
           className="fixed inset-0 bg-black/50 z-40 md:hidden" 
           onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
         />
       )}
       
@@ -134,7 +135,7 @@ const Dashboard = () => {
                   <Button 
                     variant={selectedDashboard === id ? "default" : "ghost"}
                     className={cn(
-                      "w-full justify-start",
+                      "w-full justify-start relative z-10 pointer-events-auto",
                       selectedDashboard !== id && "text-white hover:text-white hover:bg-white/10"
                     )}
                     onClick={() => handleDashboardSelect(id)}
@@ -156,7 +157,7 @@ const Dashboard = () => {
       )}>
         {selectedDashboard ? (
           <AnimatedTransition>
-            <div className="w-full overflow-hidden">
+            <div className="w-full overflow-hidden relative z-10">
               <DashboardEmbed dashboardId={selectedDashboard} />
             </div>
           </AnimatedTransition>

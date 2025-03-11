@@ -40,3 +40,22 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Ensure sidebar content is clickable */
+.dashboard-button {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+/* Fix z-index stacking */
+.content-layer {
+  position: relative;
+  z-index: 5;
+}
+
+/* Ensure main content stays above page background */
+.main-content {
+  position: relative;
+  z-index: 10;
+}
