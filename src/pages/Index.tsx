@@ -24,7 +24,7 @@ const Index = () => {
             {/* Logo */}
             <div className="w-24 h-24 mb-2">
               <img 
-                src="/lovable-uploads/5600e16e-10d9-47c8-8ac3-3ecabaa40d59.png" 
+                src="/lovable-uploads/149f4792-9a16-42a2-ba7a-75cbb4819662.png" 
                 alt="Agrícola Analitycs Logo" 
                 className="max-w-full max-h-full object-contain"
               />
