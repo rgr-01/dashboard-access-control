@@ -78,24 +78,6 @@ export function LoginForm() {
             </button>
           </div>
         </AnimatedTransition>
-        
-        <AnimatedTransition delay={500}>
-          <div className="flex justify-between items-center text-sm">
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="remember"
-                className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
-              />
-              <label htmlFor="remember" className="ml-2 block text-gray-600">
-                Lembrar-me
-              </label>
-            </div>
-            <a href="#" className="text-green-600 hover:text-green-500">
-              Esqueceu a senha?
-            </a>
-          </div>
-        </AnimatedTransition>
 
         <AnimatedTransition delay={600}>
           <Button 
