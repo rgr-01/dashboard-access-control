@@ -66,6 +66,16 @@ const Dashboard = () => {
         return 'Dashboards';
     }
   };
+
+  // Função para obter o texto do botão do dashboard
+  const getDashboardButtonText = (dashboardId: string, dashboardTitle: string) => {
+    // Para gerente e admin, mostrar o nome específico do dashboard
+    if (user?.role === 'gerente' || user?.role === 'admin') {
+      return dashboardTitle;
+    }
+    // Para outros usuários, manter o texto genérico "Dashboard"
+    return 'Dashboard';
+  };
   
   if (!user) return null;
   
@@ -100,7 +110,7 @@ const Dashboard = () => {
                     onClick={() => handleDashboardSelect(id)}
                   >
                     <LayoutDashboard className="mr-3 h-4 w-4" />
-                    <span>Dashboard</span>
+                    <span>{getDashboardButtonText(id, dashboard.title)}</span>
                   </Button>
                 </AnimatedTransition>
               ))}
