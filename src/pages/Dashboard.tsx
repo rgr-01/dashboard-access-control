@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -6,9 +5,10 @@ import { DashboardEmbed } from '@/components/DashboardEmbed';
 import { getCurrentUser, hasAccessToDashboard } from '@/utils/auth';
 import { DASHBOARDS } from '@/types/user';
 import { AnimatedTransition } from '@/components/ui-components/AnimatedTransition';
-import { LayoutDashboard, LogOut, User } from 'lucide-react';
+import { LayoutDashboard, LogOut, User, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { logout } from '@/utils/auth';
 
 const Dashboard = () => {
@@ -116,18 +116,6 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
-
-          {/* Logout Button */}
-          <div className="p-4">
-            <Button 
-              variant="ghost"
-              className="w-full justify-start text-white hover:bg-white/20"
-              onClick={handleLogout}
-            >
-              <LogOut className="mr-3 h-4 w-4" />
-              <span>Sair</span>
-            </Button>
-          </div>
         </AnimatedTransition>
       </div>
       
@@ -140,10 +128,31 @@ const Dashboard = () => {
               {getDashboardTitle()}
             </h1>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">User</span>
-              <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center">
-                <User className="h-5 w-5 text-white" />
-              </div>
+              <span className="text-sm text-gray-600">{user.name}</span>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="flex items-center space-x-2 p-2">
+                    <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center">
+                      <User className="h-5 w-5 text-white" />
+                    </div>
+                    <ChevronDown className="h-4 w-4 text-gray-600" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 bg-white border border-gray-200">
+                  <DropdownMenuItem disabled className="flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>{user.name}</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem disabled className="text-xs text-gray-500">
+                    Perfil: {user.role}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="text-red-600 hover:bg-red-50">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Sair</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
