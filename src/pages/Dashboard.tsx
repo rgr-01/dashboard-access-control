@@ -82,7 +82,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex">
       {/* Sidebar Orange */}
-      <div className="w-64 lg:w-72 bg-orange-400 min-h-screen flex flex-col">
+      <div className="w-48 lg:w-52 bg-orange-400 min-h-screen flex flex-col">
         <AnimatedTransition>
           {/* User Avatar Section */}
           <div className="flex flex-col items-center py-6 lg:py-8 px-3 lg:px-6">
@@ -110,7 +110,7 @@ const Dashboard = () => {
                     onClick={() => handleDashboardSelect(id)}
                   >
                     <LayoutDashboard className="mr-2 lg:mr-3 h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" />
-                    <span className="text-left leading-tight">{getDashboardButtonText(id, dashboard.title)}</span>
+                    <span className="text-left leading-tight break-words hyphens-auto text-[10px] lg:text-xs">{getDashboardButtonText(id, dashboard.title)}</span>
                   </Button>
                 </AnimatedTransition>
               ))}
