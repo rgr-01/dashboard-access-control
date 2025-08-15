@@ -82,7 +82,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex">
       {/* Sidebar Orange */}
-      <div className="w-64 bg-orange-400 min-h-screen flex flex-col">
+      <div className="w-52 bg-orange-400 min-h-screen flex flex-col">
         <AnimatedTransition>
           {/* User Avatar Section */}
           <div className="flex flex-col items-center py-8 px-6">
