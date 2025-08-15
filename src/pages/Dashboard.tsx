@@ -82,14 +82,14 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex">
       {/* Sidebar Orange */}
-      <div className="w-52 bg-orange-400 min-h-screen flex flex-col">
+      <div className="w-52 lg:w-60 bg-orange-400 min-h-screen flex flex-col">
         <AnimatedTransition>
           {/* User Avatar Section */}
-          <div className="flex flex-col items-center py-8 px-6">
-            <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-4">
-              <Avatar className="h-16 w-16">
+          <div className="flex flex-col items-center py-6 lg:py-8 px-3 lg:px-6">
+            <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white rounded-full flex items-center justify-center mb-3 lg:mb-4">
+              <Avatar className="h-12 w-12 lg:h-16 lg:w-16">
                 <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`} alt={user.name} />
-                <AvatarFallback className="text-2xl bg-gray-200 text-gray-600">
+                <AvatarFallback className="text-lg lg:text-2xl bg-gray-200 text-gray-600">
                   {user.name?.charAt(0).toUpperCase() || 'U'}
                 </AvatarFallback>
               </Avatar>
@@ -97,20 +97,20 @@ const Dashboard = () => {
           </div>
           
           {/* Dashboard Menu */}
-          <div className="flex-1 px-4">
-            <div className="space-y-2">
+          <div className="flex-1 px-2 lg:px-4">
+            <div className="space-y-1 lg:space-y-2">
               {accessibleDashboards.map(([id, dashboard], index) => (
                 <AnimatedTransition key={id} delay={50 * index}>
                   <Button 
                     variant="ghost"
                     className={cn(
-                      "w-full justify-start text-white hover:bg-white/20 border-none",
+                      "w-full justify-start text-white hover:bg-white/20 border-none text-xs lg:text-sm py-2 lg:py-3 px-2 lg:px-3",
                       selectedDashboard === id && "bg-white/20"
                     )}
                     onClick={() => handleDashboardSelect(id)}
                   >
-                    <LayoutDashboard className="mr-3 h-4 w-4" />
-                    <span>{getDashboardButtonText(id, dashboard.title)}</span>
+                    <LayoutDashboard className="mr-2 lg:mr-3 h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" />
+                    <span className="truncate">{getDashboardButtonText(id, dashboard.title)}</span>
                   </Button>
                 </AnimatedTransition>
               ))}
